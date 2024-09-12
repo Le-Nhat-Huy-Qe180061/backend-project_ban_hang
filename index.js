@@ -4,24 +4,28 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 
+//---------- ROUTE ----------
+//---- ROUTE Client
+const routes = require("./src/routes/client/index");
 
-//---- routes
-const routes = require("./src/routes");
-
-//---- Database
+//---------- DATABASE ----------
 const database = require("./config/database");
 database.connect();
+//---------- END DATABASE ----------
+
 
 
 const app = express();
 const port = process.env.PORT || 3001
 
-//---- Use routes
-routes(app);
 
-app.get('/', (req, res) => {
-    return res.send('Hello word');
-})
+//---------- USE ROUTE ----------
+//---- Client
+routes.index(app);
+//---- Admin
+
+//---------- END USE ROUTE ----------
+
 
 app.listen(port, () => {
     console.log(`Success connection localhost ${port}`);
