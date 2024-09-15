@@ -27,16 +27,16 @@ const userSchema = new mongoose.Schema(
         },
         access_token: {
             type: String,
-            required: true
+            require: true
         },
         refresh_token: {
             type: String,
-            required: true
+            require: true
         },
     },
     {
         timestamps: true
     }
 );
-const User = userSchema.model("User", userSchema, 'users');
+const User = mongoose.model("User", userSchema, 'users');
 module.exports = User;
