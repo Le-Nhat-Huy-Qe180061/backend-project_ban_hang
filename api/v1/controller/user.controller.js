@@ -72,7 +72,7 @@ const updateUser = async (req, res) => {
     try {
         
         const userId = req.params.id;
-        const data = req.b1ody;
+        const data = req.body;
         // console.log("userID:", userId);
 
         if(!userId){
@@ -96,6 +96,8 @@ const deleteUser = async (req, res) => {
     try {
         
         const userId = req.params.id;
+        const token = req.headers;
+        console.log("token: ", token);
         // console.log("userID:", userId);
 
         if(!userId){
