@@ -5,7 +5,7 @@ dotenv.config();
 
 
 const authMiddleWare = (req, res, next) => {
-    console.log("token", req.headers.token);
+    // console.log("token", req.headers.token);
     const token = req.headers.token.split(' ')[1];
     console.log(token);
 
@@ -18,7 +18,7 @@ const authMiddleWare = (req, res, next) => {
         }
         const {payload} = user
 
-        if(payload.isAdmin){
+        if(payload?.isAdmin){
             // console.log("true"); 
             next();
         } else {
