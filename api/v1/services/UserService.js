@@ -11,7 +11,7 @@ const createUser = (newUser) => {
             const checkUser = await User.findOne({
                 email: email
             })
-            if(checkUser !== null){
+            if (checkUser !== null) {
                 resolve({
                     status: "OK",
                     message: "The email is already"
@@ -24,7 +24,7 @@ const createUser = (newUser) => {
                 password: hash,
                 phone
             })
-            if(createUser){
+            if (createUser) {
                 resolve({
                     status: "OK",
                     message: 'SUCCESS',
@@ -45,7 +45,7 @@ const loginUser = (userLogin) => {
             const checkUser = await User.findOne({
                 email: email
             })
-            if(checkUser === null){
+            if (checkUser === null) {
                 resolve({
                     status: "OK",
                     message: "The user is not defined"
@@ -53,7 +53,7 @@ const loginUser = (userLogin) => {
             }
             const comparePassword = bcrypt.compareSync(password, checkUser.password)
 
-            if(!comparePassword){
+            if (!comparePassword) {
                 resolve({
                     status: "OK",
                     message: "The password is incorrect or error"
@@ -72,7 +72,7 @@ const loginUser = (userLogin) => {
 
             console.log("access_token", access_token);
 
-            if(checkUser){
+            if (checkUser) {
                 resolve({
                     status: "OK",
                     message: 'SUCCESS',
@@ -93,21 +93,21 @@ const updateUser = (id, data) => {
                 _id: id
             });
 
-            if(checkUser === null){
+            if (checkUser === null) {
                 resolve({
                     status: "OK",
                     message: "The user is not defined"
                 })
             }
 
-            const updateUser = await User.findByIdAndUpdate(id, data, {new: true})
+            const updateUser = await User.findByIdAndUpdate(id, data, { new: true })
             console.log("Update user:", updateUser);
 
-            if(checkUser){
+            if (checkUser) {
                 resolve({
                     status: "OK",
                     message: 'SUCCESS',
-                    data: updateUser 
+                    data: updateUser
                 })
             }
         } catch (e) {
@@ -116,9 +116,37 @@ const updateUser = (id, data) => {
     })
 }
 
+const deleteUser = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUser = await User.findOne({
+                _id: id
+            });
+
+            if (checkUser === null) {
+                resolve({
+                    status: "OK",
+                    message: "The user is not defined"
+                })
+            }
+            await User.findByIdAndDelete(id)
+            console.log("delete user:", deleteUser);
+
+            if (checkUser) {
+                resolve({
+                    status: "OK",
+                    message: 'Delete user SUCCESS',
+                })
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 
 module.exports = {
     createUser,
     loginUser,
-    updateUser
+    updateUser,
+    deleteUser
 }

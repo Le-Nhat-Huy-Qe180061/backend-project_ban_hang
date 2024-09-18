@@ -72,7 +72,7 @@ const updateUser = async (req, res) => {
     try {
         
         const userId = req.params.id;
-        const data = req.body;
+        const data = req.b1ody;
         // console.log("userID:", userId);
 
         if(!userId){
@@ -92,8 +92,32 @@ const updateUser = async (req, res) => {
 }
 
 
+const deleteUser = async (req, res) => {
+    try {
+        
+        const userId = req.params.id;
+        // console.log("userID:", userId);
+
+        if(!userId){
+            return res.status(200).json({
+                status: 'ERR',
+                message: 'The userId is required'
+            })
+        }
+
+        const response = await UserService.deleteUser(userId);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
+
 module.exports = {
     createUser,
     loginUser,
-    updateUser
+    updateUser,
+    deleteUser
 }
