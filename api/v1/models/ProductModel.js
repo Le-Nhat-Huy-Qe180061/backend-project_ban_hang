@@ -30,12 +30,12 @@ const productSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            required: true
+            // required: true
         },
     },
     {
         timestamps: true
     }
 );
-const Product = productSchema.model("Product", userSchema, 'products');
+const Product = mongoose.model("Product", productSchema, 'products');
 module.exports = Product;
