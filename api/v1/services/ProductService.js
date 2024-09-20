@@ -125,10 +125,31 @@ const deleteProduct = (id) => {
 
 
 
+const getAllProduct = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const allProduct = await Product.find();
+      await Product.findByIdAndDelete(id);
+      resolve({
+        status: "OK",
+        message: "Delete product SUCCESS",
+        data: allProduct
+      });
+      
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+
+
+
 
 module.exports = {
   createProduct,
   updateProduct,
   getDetailProduct,
-  deleteProduct
+  deleteProduct,
+  getAllProduct
 };
