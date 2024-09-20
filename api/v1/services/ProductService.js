@@ -40,19 +40,19 @@ const createProduct = (newProduct) => {
 
 const updateProduct = (id, data) => {
   return new Promise(async (resolve, reject) => {
-  
+
     try {
       const checkProduct = await Product.findOne({
         _id: id
       })
-      
+
       if (checkProduct === null) {
         resolve({
           status: "OK",
           message: "The product is not defined",
         });
       }
-      const updateProduct = await Product.findByIdAndUpdate(id, data, {new: true});
+      const updateProduct = await Product.findByIdAndUpdate(id, data, { new: true });
 
       if (updateProduct) {
         resolve({
@@ -68,8 +68,36 @@ const updateProduct = (id, data) => {
 };
 
 
+const getDetailProduct = (id) => {
+  return new Promise(async (resolve, reject) => {
+
+    try {
+      const product = await Product.findOne({
+        _id: id
+      })
+
+      if (product === null) {
+        resolve({
+          status: "OK",
+          message: "The product is not defined",
+        });
+      }
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: product,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+
 
 module.exports = {
   createProduct,
-  updateProduct
+  updateProduct,
+  getDetailProduct
 };

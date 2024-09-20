@@ -7,7 +7,7 @@ const productController = require("../controller/product.controller");
 
 routes.post("/create", productController.createProduct);
 routes.put("/update/:id", authMiddleWare.authMiddleWare ,productController.updateProduct);
-// routes.put("//:id", productController.getDetailProduct);
+routes.get("/detail/:id", productController.getDetailProduct);
 
 
 
