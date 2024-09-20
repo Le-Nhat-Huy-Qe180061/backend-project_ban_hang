@@ -6,7 +6,7 @@ const routes = express.Router();
 const userController = require("../controller/user.controller");
 
 const authMiddleWare = require("../../../middleware/auth.middleware");
-const authUserMiddleWare = require("../../../middleware/auth.middleware");
+
 
 routes.post("/sign-up", userController.createUser);
 routes.post("/sign-in", userController.loginUser);

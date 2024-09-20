@@ -24,7 +24,24 @@ const createProduct = async (req, res) => {
     }
 }
 
+const updateProduct = async (req, res) => {
+    try {
+        
+        const productId = req.params.id;
+        console.log("Product:", productId);
+        const data = req.body;
+
+        const response = await ProductService.updateProduct(productId, data);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
 
 module.exports = {
-   createProduct
+   createProduct,
+   updateProduct
 }
