@@ -95,9 +95,40 @@ const getDetailProduct = (id) => {
 };
 
 
+const deleteProduct = (id) => {
+  return new Promise(async (resolve, reject) => {
+
+    try {
+      const product = await Product.findOne({
+        _id: id
+      })
+
+      if (product === null) {
+        resolve({
+          status: "OK",
+          message: "The product is not defined",
+        });
+      }
+
+      await Product.findByIdAndDelete(id);
+
+      resolve({
+        status: "OK",
+        message: "Delete product SUCCESS",
+      });
+      
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+
+
 
 module.exports = {
   createProduct,
   updateProduct,
-  getDetailProduct
+  getDetailProduct,
+  deleteProduct
 };
