@@ -38,6 +38,38 @@ const createProduct = (newProduct) => {
   });
 };
 
+const updateProduct = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+  
+    try {
+      const checkProduct = await Product.findOne({
+        _id: id
+      })
+      
+      if (checkProduct === null) {
+        resolve({
+          status: "OK",
+          message: "The product is not defined",
+        });
+      }
+      const updateProduct = await Product.findByIdAndUpdate(id, data, {new: true});
+
+      if (updateProduct) {
+        resolve({
+          status: "OK",
+          message: "SUCCESS",
+          data: updateProduct,
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+
+
 module.exports = {
   createProduct,
+  updateProduct
 };
