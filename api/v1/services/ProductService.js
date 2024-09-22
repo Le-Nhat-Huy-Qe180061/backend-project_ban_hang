@@ -125,17 +125,19 @@ const deleteProduct = (id) => {
 
 
 
-const getAllProduct = (id) => {
+const getAllProduct = (limit = 2, page = 0) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const allProduct = await Product.find();
-      await Product.findByIdAndDelete(id);
+      const totalProduct = await Product.countDocuments(); // Lấy ra tổng số sản phẩm
+      const allProduct = await Product.find().limit(limit).skip(limit * page);
       resolve({
         status: "OK",
-        message: "Delete product SUCCESS",
-        data: allProduct
-      });
-      
+        message: "Get all product SUCCESS",
+        data: allProduct,
+        total: totalProduct,
+        pageCurrent: page + 1, // Lấy ra location page
+        totalPage: Math.ceil(totalProduct / limit),
+      });    
     } catch (e) {
       reject(e);
     }
