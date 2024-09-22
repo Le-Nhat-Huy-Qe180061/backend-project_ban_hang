@@ -85,12 +85,16 @@ const deleteProduct = async (req, res) => {
 }
 
 const getAllProduct = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     try {
-        const page = parseInt(req.query.page) || 0;
-        const limit = parseInt(req.query.limit) || 10;
+        // const limit = parseInt(req.query.limit) || 8;
+        // const page = parseInt(req.query.page) || 0;
 
-        const response = await ProductService.getAllProduct(page, limit);
+        // const sort = req.query;
+
+        const {limit, page, sort, filter} = req.query;
+
+        const response = await ProductService.getAllProduct(parseInt(limit) || 8, parseInt(page) || 0, sort, filter);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
