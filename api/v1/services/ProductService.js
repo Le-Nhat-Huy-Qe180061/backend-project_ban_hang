@@ -116,7 +116,7 @@ const deleteProduct = (id) => {
         status: "OK",
         message: "Delete product SUCCESS",
       });
-      
+
     } catch (e) {
       reject(e);
     }
@@ -125,19 +125,58 @@ const deleteProduct = (id) => {
 
 
 
-const getAllProduct = (limit = 2, page = 0) => {
+const getAllProduct = (limit, page, sort, filter) => {
+  // console.log("sort", sort);
   return new Promise(async (resolve, reject) => {
     try {
       const totalProduct = await Product.countDocuments(); // Lấy ra tổng số sản phẩm
-      const allProduct = await Product.find().limit(limit).skip(limit * page);
+      console.log("filter", filter);
+
+      if (filter) {
+        const label = filter[0]; // key
+        const objectFilter = {};
+        objectFilter[filter[0]] = filter[1]
+        console.log("objecFilter", objectFilter);
+        const allObjectFilter = await Product.find({
+          [label] : {'$regex': filter[1]}
+        })
+        resolve({
+          status: "OK",
+          message: "Get all product SUCCESS",
+          data: allObjectFilter,
+          total: totalProduct,
+          pageCurrent: parseInt(page + 1), // Lấy ra location page
+          totalPage: Math.ceil(totalProduct / limit),
+        });
+      }
+
+
+      if (sort) {
+        const objectSort = {};
+        objectSort[sort[1]] = sort[0]
+        console.log("objectSort", objectSort);
+
+        const allProductSort = await Product.find().limit(limit).skip(page * limit).sort(objectSort).limit(limit).skip(page * limit);
+        resolve({
+          status: "OK",
+          message: "Get all product SUCCESS",
+          data: allProductSort,
+          total: totalProduct,
+          pageCurrent: parseInt(page + 1), // Lấy ra location page
+          totalPage: Math.ceil(totalProduct / limit),
+        });
+      }
+
+
+      const allProduct = await Product.find().limit(limit).skip(page * limit);
       resolve({
         status: "OK",
         message: "Get all product SUCCESS",
         data: allProduct,
         total: totalProduct,
-        pageCurrent: page + 1, // Lấy ra location page
+        pageCurrent: parseInt(page + 1), // Lấy ra location page
         totalPage: Math.ceil(totalProduct / limit),
-      });    
+      });
     } catch (e) {
       reject(e);
     }
