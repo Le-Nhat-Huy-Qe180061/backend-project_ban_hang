@@ -9,12 +9,12 @@ const createProduct = async (req, res) => {
         const { name, image, type, price, countInStock, rating, description } = req.body;
         console.log(name)
 
-        if (!name || !image || !type || !price || !countInStock || !rating ) {
+        if (!name || !image || !type || !price || !countInStock || !rating) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'The input is required'
             })
-        } 
+        }
         const response = await ProductService.createProduct(req.body);
         return res.status(200).json(response);
     } catch (error) {
@@ -26,7 +26,7 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     try {
-        
+
         const productId = req.params.id;
         console.log("Product:", productId);
         const data = req.body;
@@ -46,7 +46,7 @@ const getDetailProduct = async (req, res) => {
         const productId = req.params.id;
         console.log(productId);
 
-        if(!productId){
+        if (!productId) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'The productId is required'
@@ -68,7 +68,7 @@ const deleteProduct = async (req, res) => {
         const productId = req.params.id;
         console.log(productId);
 
-        if(!productId){
+        if (!productId) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'The productId is required'
@@ -85,9 +85,12 @@ const deleteProduct = async (req, res) => {
 }
 
 const getAllProduct = async (req, res) => {
+    console.log(req.body);
     try {
+        const page = parseInt(req.query.page) || 0;
+        const limit = parseInt(req.query.limit) || 10;
 
-        const response = await ProductService.getAllProduct();
+        const response = await ProductService.getAllProduct(page, limit);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
@@ -100,9 +103,9 @@ const getAllProduct = async (req, res) => {
 
 
 module.exports = {
-   createProduct,
-   updateProduct,
-   getDetailProduct,
-   deleteProduct,
-   getAllProduct
+    createProduct,
+    updateProduct,
+    getDetailProduct,
+    deleteProduct,
+    getAllProduct
 }
